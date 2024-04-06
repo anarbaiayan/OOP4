@@ -88,7 +88,7 @@ public class Main {
 
     }
 
-    public static String task3(int n) { // complexity O(sqrt(n))
+    public static String task3(int n) { // complexity O(n)
         if (n == 1) {
             return "Composite";
         }
