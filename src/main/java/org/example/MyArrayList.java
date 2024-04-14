@@ -9,7 +9,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     public MyArrayList(int initialCapacity) {
         if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+            throw new IllegalArgumentException("Error: Illegal Capacity");
         arr = new Object[initialCapacity];
     }
 
@@ -111,10 +111,10 @@ public class MyArrayList<T> implements MyList<T> {
     @Override
     public void sort() {
         for (int i = 0; i < length; i++) {
-            for (int j = i + 1; j < length; j++) {
-                if ((int) arr[i] > (int) arr[j]) {
-                    Object temp = arr[i];
-                    arr[i] = arr[j];
+            for (int j = i + 1; j < length-1-i; j++) {
+                if (((Comparable)arr[j]).compareTo(arr[j+1]) > 0) {
+                    Object temp = arr[j+1];
+                    arr[j+1] = arr[j];
                     arr[j] = temp;
                 }
             }
