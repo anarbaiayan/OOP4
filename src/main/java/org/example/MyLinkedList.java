@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MyLinkedList<T> implements MyList<T> {
     class MyNode<E> {
@@ -74,24 +75,24 @@ public class MyLinkedList<T> implements MyList<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Error: Index out of bound");
         }
-        MyNode newNode = new MyNode(item);
+        MyNode node = new MyNode(item);
         if(index == 0){
-            newNode.next = head;
-            head.prev = newNode;
-            head = newNode;
+            node.next = head;
+            head.prev = node;
+            head = node;
         }else if(index == size){
-            tail.next = newNode;
-            newNode.prev = tail;
-            tail = newNode;
+            tail.next = node;
+            node.prev = tail;
+            tail = node;
         }else{
             MyNode current = head;
             for(int i = 0; i < index; i++){
                 current = current.next;
             }
-            newNode.next = current.next;
-            newNode.prev = current;
-            current.next.prev = newNode;
-            current.next = newNode;
+            node.next = current.next;
+            node.prev = current;
+            current.next.prev = node;
+            current.next = node;
         }
         size++;
 
@@ -161,41 +162,93 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public void sort() {
-
+        for (MyNode i = head; i != null; i = i.next) {
+            for (MyNode j = i.next; j != null; j = j.next) {
+                if (((Comparable)j.element).compareTo(i.element) < 0) {
+                    Object current = i.element;
+                    i.element = j.element;
+                    j.element = current;
+                }
+            }
+        }
     }
 
     @Override
     public int indexOf(Object object) {
-        return 0;
+        MyNode current = head;
+        for (int i = 0; i < size; i++) {
+            if (current.element.equals(object)) {
+                return i;
+            }
+            current = current.next;
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object object) {
-        return 0;
+        MyNode current = tail;
+        for (int i = size - 1; i >= 0; i--) {
+            if (current.element.equals(object)) {
+                return i;
+            }
+            current = current.prev;
+        }
+        return -1;
     }
 
     @Override
     public boolean exists(Object object) {
-        return false;
+        return indexOf(object) != -1;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] arr = new Object[size];
+        MyNode current = head;
+        for (int i = 0; i < size; i++) {
+            arr[i] = current.element;
+            current = current.next;
+        }
+        return arr;
     }
 
     @Override
     public void clear() {
-
+        head = null;
+        tail = null;
+        size = 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new MyIterator();
     }
+
+    public class MyIterator implements Iterator<T> {
+        private MyNode current = head;
+        private int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext() != true) {
+                throw new NoSuchElementException();
+            }
+            T element = (T) current.element;
+            current = current.next;
+            index++;
+            return element;
+        }
+    }
+
 }
