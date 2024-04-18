@@ -15,13 +15,13 @@ public class MyArrayList<T> implements MyList<T> {
 
     public MyArrayList() {
         this(DEFAULT_CAPACITY);
-    }
+    } // Creates an empty list with default capacity
 
     private void increaseCapacity() {
         Object[] temp = new Object[arr.length * 2];
         System.arraycopy(arr, 0, temp, 0, arr.length);
         arr = temp;
-    }
+    } // Increases the capacity of list
 
     @Override
     public void add(T item) {
@@ -29,7 +29,7 @@ public class MyArrayList<T> implements MyList<T> {
             increaseCapacity();
         }
         arr[length++] = item;
-    }
+    } // Add new element to the end of the list
 
     @Override
     public void set(int index, T item) {
@@ -37,7 +37,7 @@ public class MyArrayList<T> implements MyList<T> {
             throw new IndexOutOfBoundsException("Error: Index out of bound");
         }
         arr[index] = item;
-    }
+    } // Replace new element on the specified index with another
 
     @Override
     public void add(int index, T item) {
@@ -50,17 +50,17 @@ public class MyArrayList<T> implements MyList<T> {
         System.arraycopy(arr, index, arr, index + 1, length - index);
         arr[index] = item;
         length++;
-    }
+    } // Add new element to the specified index
 
     @Override
     public void addFirst(T item) {
         add(0, item);
-    }
+    } // Add new element on the beginning of this list
 
     @Override
     public void addLast(T item) {
         add(item);
-    }
+    } // Add new element on the end of this list
 
     @Override
     public T get(int index) {
@@ -68,7 +68,7 @@ public class MyArrayList<T> implements MyList<T> {
             throw new IndexOutOfBoundsException("Error: Index out of bound");
         }
         return (T) arr[index];
-    }
+    } // Gets element on specified index
 
     @Override
     public T getFirst() {
@@ -76,7 +76,7 @@ public class MyArrayList<T> implements MyList<T> {
             throw new IndexOutOfBoundsException("Array is empty");
         }
         return (T) arr[0];
-    }
+    } // Gets first element of the list
 
     @Override
     public T getLast() {
@@ -84,7 +84,7 @@ public class MyArrayList<T> implements MyList<T> {
             throw new IndexOutOfBoundsException("Array is empty");
         }
         return (T) arr[length - 1];
-    }
+    } // Gets last element of this list
 
     @Override
     public void remove(int index) {
@@ -96,17 +96,17 @@ public class MyArrayList<T> implements MyList<T> {
             System.arraycopy(arr, index + 1, arr, index, num);
         }
         arr[--length] = null;
-    }
+    } // Removes element from the list on specified index
 
     @Override
     public void removeFirst() {
         remove(0);
-    }
+    } // Removes first element from the list
 
     @Override
     public void removeLast() {
         remove(length - 1);
-    }
+    } // Removes last element from the list
 
     @Override
     public void sort() {
@@ -119,7 +119,7 @@ public class MyArrayList<T> implements MyList<T> {
                 }
             }
         }
-    }
+    } // Sort the list in asc order
 
     @Override
     public int indexOf(Object object) {
@@ -129,7 +129,7 @@ public class MyArrayList<T> implements MyList<T> {
             }
         }
         return -1;
-    }
+    } // Returns index of specified element
 
     @Override
     public int lastIndexOf(Object object) {
@@ -139,29 +139,29 @@ public class MyArrayList<T> implements MyList<T> {
             }
         }
         return -1;
-    }
+    } // Returns index of the last element in the list
 
     @Override
     public boolean exists(Object object) {
         return indexOf(object) != -1;
-    }
+    } // Checks for existing of specified element
 
     @Override
     public Object[] toArray() {
         Object[] temp = new Object[length];
         System.arraycopy(arr, 0, temp, 0, length);
         return temp;
-    }
+    } // Returns an array
 
     @Override
     public void clear() {
         arr = new Object[DEFAULT_CAPACITY];
-    }
+    } // Deletes all elements from the list
 
     @Override
     public int size() {
         return length;
-    }
+    } // Returns number of element in list
 
     @Override
     public Iterator<T> iterator() {
