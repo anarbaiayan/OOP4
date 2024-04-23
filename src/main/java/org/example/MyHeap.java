@@ -2,18 +2,18 @@ package org.example;
 
 public class MyHeap <T extends Comparable<T>>  {
 
-    MyArrayList<T> heap = new MyArrayList<>();
+    MyArrayList<T> heap = new MyArrayList<>(); // Based on ArrayList
 
-    public MyHeap() {
+    public MyHeap() { // Null constructor
     }
 
     public void empty() { // clear function
         heap.clear();
     }
 
-    public int size() { // size function
+    public int size() {
         return heap.size();
-    }
+    } // size function
 
     public T getMax() { // first element
         return heap.get(0);
@@ -21,22 +21,16 @@ public class MyHeap <T extends Comparable<T>>  {
 
     public T extractMax() { // gets max and swaps with last element then removes last element
         T max = heap.get(0);
-        heap.set(0, heap.get(heap.size() - 1));
+        swap(0, heap.size() - 1);
         heap.remove(heap.size() - 1);
         heapify(0);
         return max;
     }
 
-    public void insert(T item) { // inserts item to the end and puts it to the respective place
+    public void insert(T item) { // inserts item to the end of the heap and puts it to the respective place
         heap.add(item);
         int i = heap.size() - 1;
-        while (i > 0 && heap.get(i).compareTo(heap.get(parentOf(i))) > 0) {
-            T temp = heap.get(i);
-            heap.set(i, heap.get(parentOf(i)));
-            heap.set(parentOf(i), temp);
-            i = parentOf(i);
-        }
-
+        heapify(i);
     }
 
     private void heapify(int i) { // heapify function to maintain the heap property after deletion or insertion
@@ -50,9 +44,7 @@ public class MyHeap <T extends Comparable<T>>  {
             largest = right;
         }
         if (largest != i) {
-            T temp = heap.get(i);
-            heap.set(i, heap.get(largest));
-            heap.set(largest, temp);
+            swap(i, largest);
             heapify(largest);
         }
     }
@@ -65,22 +57,41 @@ public class MyHeap <T extends Comparable<T>>  {
         }
     }
 
-    public int leftChildOf(int i) {// returns left child though math
-        return 2 * i + 1;
-    }
+    public int leftChildOf(int i) {
+        return (2 * i)+1;
+    } // returns left child though math
 
-    public int rightChildOf(int i) {// returns right child through math
-        return 2 * i + 2;
-    }
+    public int rightChildOf(int i) {
+        return (2 * i)+2;
+    } // returns right child through math
 
-    public int parentOf(int i) {// returns parent through math
-        return (i - 1) / 2;
-    }
+    public int parentOf(int i) {
+        return i-1 / 2;
+    } // returns parent through math
 
     public void swap(int i, int j) { // swaps two elements
         T temp = heap.get(i);
         heap.set(i, heap.get(j));
         heap.set(j, temp);
     }
+
+    public static void printArray(MyArrayList<Integer> arr) {
+        for (int i = 0; i < arr.size(); i++) {
+            System.out.print(arr.get(i) + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        MyHeap<Integer> heap = new MyHeap<>();
+        heap.insert(6);
+        heap.insert(5);
+        heap.insert(2);
+        heap.insert(3);
+        heap.insert(4);
+        printArray(heap.heap);
+    }
+
+
 
 }
